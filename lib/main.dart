@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/ArFunctionality/demo.dart';
 import 'package:untitled/Screens/AuthenticationScreens/loginScreen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -22,10 +27,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      backgroundColor: Color.fromRGBO( 44, 53, 57,1),
-        body: LoginScreen());
+    return const Scaffold(
+        backgroundColor: Color.fromRGBO(44, 53, 57, 1), body: LoginScreen());
   }
 }
-
-
