@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:untitled/Screens/AuthenticationScreens/signUpScreen.dart';
+import 'package:untitled/Screens/HomeScreens/homeScreen.dart';
 
 import '../ProductView/productdetail.dart';
 
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           print(emailController.text);
                           print(passwordController.text);
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ProductDetails()));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScren()));
                         },
                       )
                   ),

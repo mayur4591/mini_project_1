@@ -4,16 +4,35 @@ import 'package:badges/badges.dart';
 import 'package:like_button/like_button.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({Key? key}) : super(key: key);
+  // const ProductDetails({Key? key}) : super(key: key);
 
+
+  String image;
+  String price;
+  int rating;
+  String name;
   @override
-  State<ProductDetails> createState() => _ProductDetailsState();
+  // ignore: no_logic_in_create_state
+  State<ProductDetails> createState() => _ProductDetailsState(image,price,rating,name);
+
+  ProductDetails(this.image, this.price, this.rating, this.name);
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+
+  String image;
+  String price;
+  int rating;
+  String name;
+
+
+  _ProductDetailsState(this.image, this.price, this.rating, this.name);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(size.width);
+    print(size.height);
     return Scaffold(
       // backgroundColor: Color.fromRGBO(44, 53, 57, 1),
       appBar: buildAppBar(),
@@ -26,207 +45,221 @@ class _ProductDetailsState extends State<ProductDetails> {
           color: Colors.blue,
         ),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              height: size.height * 0.35,
-              alignment: Alignment.center,
-              // color: Colors.white,
-              child: Image.asset('assets/images/sofa_3.jpg'),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(20),
+              child: Container(
+                // margin: const EdgeInsets.only(left: 4, right: 4),
+                decoration: const BoxDecoration(
+                  color:  Color.fromRGBO(44, 53, 57, 1),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                ),
+                //color: Colors.white,
+                width: double.maxFinite,
+              ),
             ),
-            DraggableScrollableSheet(
-              maxChildSize: .72,
-              initialChildSize: .63,
-              minChildSize: .63,
-              builder: (context, scrollController) {
-                return Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                    color: Color.fromRGBO(44, 53, 57, 1),
+            pinned: true,
+            backgroundColor: Colors.transparent,//const Color.fromRGBO(44, 53, 57, 1),
+            expandedHeight: (450*size.height)/897.2549187389994,
+            flexibleSpace: FlexibleSpaceBar(
+                background: Image.asset(image,fit: BoxFit.fill,)
+    )
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              color: const Color.fromRGBO(44, 53, 57, 1),
+              child:Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
                   ),
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        buildSizedBox(10),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 50,
-                            height: 5,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
+                  color: Color.fromRGBO(44, 53, 57, 1),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      buildSizedBox(10),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: (50*size.width)/423.5294196844927,
+                          height: (5*size.height)/897.2549187389994,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade50,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
                             ),
                           ),
                         ),
-                        buildSizedBox(18),
-                        Container(
-                          padding: const EdgeInsets.only(left: 18),
-                          alignment: Alignment.centerLeft,
-                          child: const Text(
-                            'GAMMALBYN',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        buildSizedBox(6),
-                        Container(
-                          padding: const EdgeInsets.only(left: 18.0),
-                          alignment: Alignment.centerLeft,
-                          child: const Text(
-                            '3-seat sofa, grey',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w100),
-                          ),
-                        ),
-                        buildSizedBox(14),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 18.0),
-                          child: Text(
-                            'Rs. 25,000',
-                            style: TextStyle(
-                              fontSize: 38,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        buildSizedBox(28),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 18.0),
-                          child: Text(
-                            'Product Information',
-                            style: TextStyle(
+                      ),
+                      buildSizedBox(18),
+                      Container(
+                        padding: const EdgeInsets.only(left: 18),
+                        alignment: Alignment.centerLeft,
+                        child:  Text(
+                          name,
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      buildSizedBox(6),
+                      Container(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          '3-seat sofa, grey',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w100),
+                        ),
+                      ),
+                      buildSizedBox(14),
+                       Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text(
+                          'Rs. '+price+"/-",
+                          style: const TextStyle(
+                            fontSize: 38,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                        buildSizedBox(14),
-                        buildDivider(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 24),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Reviews',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.5,
-                                ),
+                      ),
+                      buildSizedBox(28),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 18.0),
+                        child: Text(
+                          'Product Information',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      buildSizedBox(14),
+                      buildDivider(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 18, vertical: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Reviews',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.5,
                               ),
-                              Row(
-                                children: const <Widget>[
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 18,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 18,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 18,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 18,
-                                  ),
-                                  Icon(
-                                    Icons.star_border,
+                            ),
+                            Row(
+                              children:  <Widget>[
+                                Icon(
+                                  Icons.star,
+                                  color: rating>=1?Colors.yellow:Colors.white,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: rating>=2?Colors.yellow:Colors.white,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: rating>=3?Colors.yellow:Colors.white,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: rating>=4?Colors.yellow:Colors.white,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: rating>=5?Colors.yellow:Colors.white,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      buildDivider(),
+                      ExpansionTile(
+                        title: const Text(
+                          'Product details',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.5,
+                          ),
+                        ),
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 17, right: 17, bottom: 10),
+                            width: 400,
+                            child: const Text(
+                              'MRP Rs.36,733 (incl. tax)\n\nSeat cushions filled with high resilience foam and polyester fibre wadding give comfortable support for your body, and easily regain their shape when you get up.\n\nBack cushions filled with polyester fibres for soft comfort.\n\nCountry of Origin - India',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      buildDivider(),
+                      ExpansionTile(
+                        title: const Text(
+                          'Materials',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.5,
+                          ),
+                        ),
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 17, right: 17, bottom: 10),
+                            width: 400,
+                            child: Column(
+                              children: const [
+                                 Text(
+                                  'MRP Rs.36,733 (incl. tax)\n\nSeat cushions filled with high resilience foam and polyester fibre wadding give comfortable support for your body, and easily regain their shape when you get up.\n\nBack cushions filled with polyester fibres for soft comfort.\n\nCountry of Origin - India',
+                                  style: TextStyle(
                                     color: Colors.white,
-                                    size: 18,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w200,
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        buildDivider(),
-                        ExpansionTile(
-                          title: const Text(
-                            'Product details',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.5,
-                            ),
-                          ),
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  left: 17, right: 17, bottom: 10),
-                              width: 400,
-                              child: const Text(
-                                'MRP Rs.36,733 (incl. tax)\n\nSeat cushions filled with high resilience foam and polyester fibre wadding give comfortable support for your body, and easily regain their shape when you get up.\n\nBack cushions filled with polyester fibres for soft comfort.\n\nCountry of Origin - India',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w200,
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        buildDivider(),
-                        ExpansionTile(
-                          title: const Text(
-                            'Materials',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.5,
+                              ],
                             ),
                           ),
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  left: 17, right: 17, bottom: 10),
-                              width: 400,
-                              child: Column(
-                                children: const [
-                                  Text(
-                                    'Leg',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w200,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        buildDivider(),
-                      ],
-                    ),
+                        ],
+                      ),
+                      buildDivider(),
+                      const SizedBox(height: 137)
+                    ],
                   ),
-                );
-              },
+                ),
+              )
             ),
-          ],
-        ),
+          )
+        ],
       ),
+
     );
   }
 
@@ -251,7 +284,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
       elevation: 2,
       leading: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
         icon: SvgPicture.asset(
           "assets/svg/back.svg",
           color: Colors.white,
@@ -264,17 +299,6 @@ class _ProductDetailsState extends State<ProductDetails> {
             onTap: onLikeButtonTapped,
           ),
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(top: 10, right: 30.0),
-        //   child: Badge(
-        //     badgeContent: Text('0'),
-        //     // badgeColor: Colors.blueAccent,
-        //     child: SvgPicture.asset(
-        //       "assets/svg/heart.svg",
-        //       width: 25.5,
-        //     ),
-        //   ),
-        // ),
         Padding(
           padding: const EdgeInsets.only(top: 9, right: 20.0),
           child: Badge(
@@ -294,3 +318,209 @@ class _ProductDetailsState extends State<ProductDetails> {
     return !isLiked;
   }
 }
+
+
+// body: SafeArea(
+//   child: Stack(
+//     children: [
+//       Container(
+//         height: size.height * 0.35,
+//         alignment: Alignment.center,
+//         // color: Colors.white,
+//         child: Image.asset('assets/images/sofa_3.jpg'),
+//       ),
+//       DraggableScrollableSheet(
+//         maxChildSize: .72,
+//         initialChildSize: .63,
+//         minChildSize: .63,
+//         builder: (context, scrollController) {
+//           return Padding(
+//             padding: const EdgeInsets.all(2.0),
+//             child: Container(
+//               decoration: const BoxDecoration(
+//                 borderRadius: BorderRadius.only(
+//                   topLeft: Radius.circular(20),
+//                   topRight: Radius.circular(20),
+//                 ),
+//                 color: Color.fromRGBO(44, 53, 57, 1),
+//               ),
+//               child: SingleChildScrollView(
+//                 controller: scrollController,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   mainAxisSize: MainAxisSize.max,
+//                   children: [
+//                     buildSizedBox(10),
+//                     Container(
+//                       alignment: Alignment.center,
+//                       child: Container(
+//                         width: 50,
+//                         height: 5,
+//                         decoration: BoxDecoration(
+//                           color: Colors.grey.shade50,
+//                           borderRadius: const BorderRadius.all(
+//                             Radius.circular(10),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                     buildSizedBox(18),
+//                     Container(
+//                       padding: const EdgeInsets.only(left: 18),
+//                       alignment: Alignment.centerLeft,
+//                       child: const Text(
+//                         'GAMMALBYN',
+//                         style: TextStyle(
+//                             color: Colors.white,
+//                             fontSize: 18,
+//                             fontWeight: FontWeight.w400),
+//                       ),
+//                     ),
+//                     buildSizedBox(6),
+//                     Container(
+//                       padding: const EdgeInsets.only(left: 18.0),
+//                       alignment: Alignment.centerLeft,
+//                       child: const Text(
+//                         '3-seat sofa, grey',
+//                         style: TextStyle(
+//                             color: Colors.white,
+//                             fontSize: 14,
+//                             fontWeight: FontWeight.w100),
+//                       ),
+//                     ),
+//                     buildSizedBox(14),
+//                     const Padding(
+//                       padding: EdgeInsets.only(left: 18.0),
+//                       child: Text(
+//                         'Rs. 25,000',
+//                         style: TextStyle(
+//                           fontSize: 38,
+//                           color: Colors.white,
+//                           fontWeight: FontWeight.w500,
+//                         ),
+//                       ),
+//                     ),
+//                     buildSizedBox(28),
+//                     const Padding(
+//                       padding: EdgeInsets.only(left: 18.0),
+//                       child: Text(
+//                         'Product Information',
+//                         style: TextStyle(
+//                           color: Colors.white,
+//                           fontSize: 18,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ),
+//                     buildSizedBox(14),
+//                     buildDivider(),
+//                     Container(
+//                       padding: const EdgeInsets.symmetric(
+//                           horizontal: 18, vertical: 24),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           const Text(
+//                             'Reviews',
+//                             style: TextStyle(
+//                               color: Colors.white,
+//                               fontSize: 15.5,
+//                             ),
+//                           ),
+//                           Row(
+//                             children: const <Widget>[
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                                 size: 18,
+//                               ),
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                                 size: 18,
+//                               ),
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                                 size: 18,
+//                               ),
+//                               Icon(
+//                                 Icons.star,
+//                                 color: Colors.yellow,
+//                                 size: 18,
+//                               ),
+//                               Icon(
+//                                 Icons.star_border,
+//                                 color: Colors.white,
+//                                 size: 18,
+//                               ),
+//                             ],
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     buildDivider(),
+//                     ExpansionTile(
+//                       title: const Text(
+//                         'Product details',
+//                         style: TextStyle(
+//                           color: Colors.white,
+//                           fontSize: 15.5,
+//                         ),
+//                       ),
+//                       children: [
+//                         Container(
+//                           padding: const EdgeInsets.only(
+//                               left: 17, right: 17, bottom: 10),
+//                           width: 400,
+//                           child: const Text(
+//                             'MRP Rs.36,733 (incl. tax)\n\nSeat cushions filled with high resilience foam and polyester fibre wadding give comfortable support for your body, and easily regain their shape when you get up.\n\nBack cushions filled with polyester fibres for soft comfort.\n\nCountry of Origin - India',
+//                             style: TextStyle(
+//                               color: Colors.white,
+//                               fontSize: 14,
+//                               fontWeight: FontWeight.w200,
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     buildDivider(),
+//                     ExpansionTile(
+//                       title: const Text(
+//                         'Materials',
+//                         style: TextStyle(
+//                           color: Colors.white,
+//                           fontSize: 15.5,
+//                         ),
+//                       ),
+//                       children: [
+//                         Container(
+//                           padding: const EdgeInsets.only(
+//                               left: 17, right: 17, bottom: 10),
+//                           width: 400,
+//                           child: Column(
+//                             children: const [
+//                               Text(
+//                                 'Leg',
+//                                 style: TextStyle(
+//                                   color: Colors.white,
+//                                   fontSize: 14,
+//                                   fontWeight: FontWeight.w200,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     buildDivider(),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     ],
+//   ),
+// ),

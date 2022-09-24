@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/ArFunctionality/demo.dart';
 import 'package:untitled/Screens/AuthenticationScreens/loginScreen.dart';
+import 'package:untitled/Screens/HomeScreens/homeScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,8 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        backgroundColor: Color.fromRGBO(44, 53, 57, 1), body: LoginScreen());
+    return  const Scaffold(
+        backgroundColor: Color.fromRGBO(44, 53, 57, 1),
+        body: Demo());//LoginScreen());
   }
 }
