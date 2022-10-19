@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:badges/badges.dart';
 import 'package:like_button/like_button.dart';
+import 'package:untitled/Models/productmodel.dart';
+import 'package:untitled/Screens/CartScreen/cartScreen.dart';
 
 class ProductDetails extends StatefulWidget {
   // const ProductDetails({Key? key}) : super(key: key);
@@ -27,6 +29,12 @@ class _ProductDetailsState extends State<ProductDetails> {
 
 
   _ProductDetailsState(this.image, this.price, this.rating, this.name);
+  @override
+  void initState() {
+    // TODO: implement initState
+    wishListCount=productList.length;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +44,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     return Scaffold(
       // backgroundColor: Color.fromRGBO(44, 53, 57, 1),
       appBar: buildAppBar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        elevation: 2,
-        backgroundColor: Colors.white,
-        child: const Icon(
-          Icons.shopping_basket_rounded,
-          color: Colors.blue,
-        ),
-      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -65,9 +64,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             pinned: true,
             backgroundColor: Colors.transparent,//const Color.fromRGBO(44, 53, 57, 1),
-            expandedHeight: (450*size.height)/897.2549187389994,
+            expandedHeight: 320,//(450*size.height)/897.2549187389994,
             flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(image,fit: BoxFit.fill,)
+                background: Image.asset(image,fit: BoxFit.contain,)
     )
           ),
           SliverToBoxAdapter(
@@ -101,27 +100,42 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ),
                       buildSizedBox(18),
-                      Container(
-                        padding: const EdgeInsets.only(left: 18),
-                        alignment: Alignment.centerLeft,
-                        child:  Text(
-                          name,
-                          style: const TextStyle(
+                      ListTile(
+                        title: Text(name,
+                          style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      buildSizedBox(6),
-                      Container(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        alignment: Alignment.centerLeft,
-                        child: const Text(
-                          '3-seat sofa, grey',
+                              fontWeight: FontWeight.w500),),
+                        subtitle: const Text('3-set sofa,grey',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.w100),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {
+                            Product product= Product(image, name, price, rating);
+                                  productList.add(product);
+                                  wishListCount=productList.length;
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: const Text('Element added to cart...',style: TextStyle(color: Colors.black),),
+                                    ),
+                                    backgroundColor: Colors.white,
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: const Duration(seconds: 2),
+                                    margin: EdgeInsets.only(bottom: 40,left: 20,right: 20),
+                                  )
+                                  );
+                                setState((){
+                                });
+                          },
+                          icon: const Icon(
+                            Icons.add_shopping_cart_sharp,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       buildSizedBox(14),
@@ -250,7 +264,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ],
                       ),
                       buildDivider(),
-                      const SizedBox(height: 137)
+                      Container(
+                        color: Colors.green,
+                        margin: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(15),
+                        child: const Center(
+                          child: Text('Buy',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),),
+                        ),
+                      ),
+                      //const SizedBox(height: 137)
                     ],
                   ),
                 ),
@@ -294,16 +316,15 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(top: 9, right: 25.0),
-          child: LikeButton(
-            onTap: onLikeButtonTapped,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 9, right: 20.0),
-          child: Badge(
-            badgeContent: const Text('0'),
-            child: SvgPicture.asset("assets/svg/cart.svg"),
+          padding: const EdgeInsets.only(top: 9),
+          child: MaterialButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
+            },
+            child: Badge(
+              badgeContent:  Text('${productList.length}'),
+              child: SvgPicture.asset("assets/svg/cart.svg"),
+            ),
           ),
         ),
       ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/Screens/ProductView/productdetail.dart';
 
+import '../../Customer/navigation_drawer.dart';
 import '../../Models/category.dart';
 import '../../Models/productmodel.dart';
 
@@ -11,29 +12,29 @@ class HomeScren extends StatefulWidget {
   @override
   State<HomeScren> createState() => _HomeScrenState();
 }
-List<Category>category=[];
+
+List<Category> category = [];
 
 class _HomeScrenState extends State<HomeScren> {
-  Product p1=Product("assets/images/chair.jpg", "White Chair", "450", 3);
-  Product p2=Product("assets/images/cubured.jpg", "Cupboard", "14,450", 4);
-  Product p3=Product("assets/images/kingchair.jpg", "King Chair", "1450", 5);
-  Product p4=Product("assets/images/sofa.jpg", "Red sofa set", "20,550", 4);
-  Product p5=Product("assets/images/sofachair.jpg", "Ocen blue sofa", "3450", 5);
-  Product p6=Product("assets/images/swingchair.jpg", "Swing chair", "2450", 3);
-  Product p7=Product("assets/images/table.jpg", "Wooden Table", "7450", 5);
-  Product p8=Product("assets/images/workdesk.jpg", "Working desk", "9450", 4);
+  Product p1 = Product("assets/images/chair.jpg", "White Chair", "450", 3);
+  Product p2 = Product("assets/images/cubured.jpg", "Cupboard", "14,450", 4);
+  Product p3 = Product("assets/images/kingchair.jpg", "King Chair", "1450", 5);
+  Product p4 = Product("assets/images/sofa.jpg", "Red sofa set", "20,550", 4);
+  Product p5 =
+      Product("assets/images/sofachair.jpg", "Ocen blue sofa", "3450", 5);
+  Product p6 =
+      Product("assets/images/swingchair.jpg", "Swing chair", "2450", 3);
+  Product p7 = Product("assets/images/table.jpg", "Wooden Table", "7450", 5);
+  Product p8 = Product("assets/images/workdesk.jpg", "Working desk", "9450", 4);
 
-  Category c1=Category("Tables", "assets/images/tablecategorie.jpg");
-  Category c2=Category("Couches", "assets/images/couchcategory.jpg");
-  Category c3=Category("Sofas", "assets/images/sofacategory.jpg");
-  Category c4=Category("Cupboards", "assets/images/cupboardcategory.jpg");
-  Category c5=Category("Chairs", "assets/images/chaircategory.jpg");
-  Category c6=Category("Benches", "assets/images/benchcategory.jpg");
+  Category c1 = Category("Tables", "assets/images/tablecategorie.jpg");
+  Category c2 = Category("Couches", "assets/images/couchcategory.jpg");
+  Category c3 = Category("Sofas", "assets/images/sofacategory.jpg");
+  Category c4 = Category("Cupboards", "assets/images/cupboardcategory.jpg");
+  Category c5 = Category("Chairs", "assets/images/chaircategory.jpg");
+  Category c6 = Category("Benches", "assets/images/benchcategory.jpg");
 
-
-
-
-  List<Product>productList=[];
+  List<Product> productList = [];
 
   @override
   void initState() {
@@ -54,28 +55,48 @@ class _HomeScrenState extends State<HomeScren> {
     productList.add(p8);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     print(size.width);
     print(size.height);
     return Scaffold(
+      drawer: const USerDrawer(),
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-        title: const Text('Dashboard',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
+        title: const Text(
+          'Dashboard',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        ),
       ),
       backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
       body: ListView.builder(
-          itemCount: productList.length+2,
+          itemCount: productList.length + 2,
           itemBuilder: (BuildContext context, int index) {
-            return index==0? const Categories(): index== 1? const DivederWidget():GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProductDetails(productList[index-2].image,productList[index-2].price,productList[index-2].ratings,productList[index-2].product_name)));
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                  child: boxes(name: productList[index-2].product_name, price: productList[index-2].price,image: productList[index-2].image,ratings: productList[index-2].ratings)),
-            );
+            return index == 0
+                ? const Categories()
+                : index == 1
+                    ? const DivederWidget()
+                    : GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductDetails(
+                                      productList[index - 2].image,
+                                      productList[index - 2].price,
+                                      productList[index - 2].ratings,
+                                      productList[index - 2].product_name)));
+                        },
+                        child: Container(
+                            padding: const EdgeInsets.all(10),
+                            child: boxes(
+                                name: productList[index - 2].product_name,
+                                price: productList[index - 2].price,
+                                image: productList[index - 2].image,
+                                ratings: productList[index - 2].ratings)),
+                      );
           }),
     );
   }
@@ -95,30 +116,27 @@ class DivederWidget extends StatelessWidget {
               margin: const EdgeInsets.only(left: 10.0, right: 20.0),
               child: const Divider(
                 color: Colors.white,
-              ),),
-
-
+              ),
+            ),
           ),
           const Text(
             'Featured Products',
-            style: TextStyle(
-                color: Colors.white
-            ),
+            style: TextStyle(color: Colors.white),
           ),
           Expanded(
             child: Container(
               margin: const EdgeInsets.only(left: 20.0, right: 10.0),
               child: const Divider(
                 color: Colors.white,
-              ),),
-
-
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 }
+
 class Categories extends StatelessWidget {
   const Categories({Key? key}) : super(key: key);
 
@@ -126,23 +144,26 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      height: (MediaQuery.of(context).size.height*(3.7))/27,
+      height: (MediaQuery.of(context).size.height * (3.7)) / 27,
       width: double.maxFinite,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: category.length,
-        itemBuilder: (BuildContext context,int index ){
-        return circulars(decor: category[index].name, image: category[index].image);
-      },
+        itemBuilder: (BuildContext context, int index) {
+          return circulars(
+              decor: category[index].name, image: category[index].image);
+        },
       ),
     );
   }
 }
 
-
-
 class boxes extends StatelessWidget {
-  boxes({required this.name, required this.price,required this.image,required this.ratings});
+  boxes(
+      {required this.name,
+      required this.price,
+      required this.image,
+      required this.ratings});
 
   final String name;
   final String price;
@@ -162,11 +183,13 @@ class boxes extends StatelessWidget {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child:  Image(
+            child: Image(
               fit: BoxFit.cover,
-              image: AssetImage(image,),
+              image: AssetImage(
+                image,
+              ),
               // height: 120.0,
-               width: 120.0,
+              width: 120.0,
             ),
           ),
           const SizedBox(
@@ -193,54 +216,50 @@ class boxes extends StatelessWidget {
                 height: 15,
               ),
               Text(
-               "Rs."+price+"/-",
+                "Rs." + price + "/-",
                 style: const TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20
-                ),
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20),
               ),
               const SizedBox(
                 height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:  [
+                children: [
                   Icon(
                     Icons.star,
-                    color: ratings>=1 ?Colors.yellow:Colors.white,
+                    color: ratings >= 1 ? Colors.yellow : Colors.white,
                     size: 15,
                   ),
                   Icon(
                     Icons.star,
-                    color: ratings>=2 ?Colors.yellow:Colors.white,
+                    color: ratings >= 2 ? Colors.yellow : Colors.white,
                     size: 15,
                   ),
                   Icon(
                     Icons.star,
-                    color: ratings>=3?Colors.yellow:Colors.white,
+                    color: ratings >= 3 ? Colors.yellow : Colors.white,
                     size: 15,
                   ),
                   Icon(
                     Icons.star,
-                    color: ratings>=4?Colors.yellow:Colors.white,
+                    color: ratings >= 4 ? Colors.yellow : Colors.white,
                     size: 15,
                   ),
                   Icon(
                     Icons.star,
-                    color: ratings>=5 ?Colors.yellow:Colors.white,
+                    color: ratings >= 5 ? Colors.yellow : Colors.white,
                     size: 15,
                   )
-
-
-
-
                 ],
               )
-
             ],
           ),
-          SizedBox(width: 30,),
+          SizedBox(
+            width: 30,
+          ),
         ],
       ),
     );
@@ -248,7 +267,7 @@ class boxes extends StatelessWidget {
 }
 
 class circulars extends StatelessWidget {
-  circulars({required this.decor,required this.image});
+  circulars({required this.decor, required this.image});
 
   final String decor;
   final String image;

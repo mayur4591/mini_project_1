@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/Models/newUser.dart';
-import 'package:untitled/Screens/AuthenticationScreens/loginScreen.dart';
 import 'package:untitled/Screens/AuthenticationScreens/signUpScreen.dart';
 import 'package:untitled/Screens/HomeScreens/homeScreen.dart';
 
