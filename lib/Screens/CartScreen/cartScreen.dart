@@ -30,7 +30,7 @@ class _CartPageState extends State<CartPage> {
         title: const Text('My Wishlist'),
         backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
       ),
-      body:productList.length!=0? ListView.builder(
+      body:productList.isNotEmpty? ListView.builder(
           itemCount: productList.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(

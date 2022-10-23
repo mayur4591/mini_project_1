@@ -1,4 +1,6 @@
 import 'package:badges/badges.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/Customer/customerProfilePage.dart';
@@ -12,6 +14,28 @@ class USerDrawer extends StatefulWidget {
 }
 
 class _DrawerState extends State<USerDrawer> {
+  String fname=" ";
+  String lname=" ";
+  String email=" ";
+  Future<void> getInfo() async {
+    FirebaseDatabase.instance.reference().child('Users/all_users/${FirebaseAuth.instance.currentUser!.uid}').once().then((value) => {
+      setState((){
+        Map<dynamic,dynamic> map=value.snapshot.value as Map;
+        fname=map['first_name'];
+        lname=map['last_name'];
+        email=map['email'];
+      }),
+
+      print(fname)
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,22 +57,22 @@ class _DrawerState extends State<USerDrawer> {
                         MaterialPageRoute(
                             builder: (context) => const CustomerProfile()));
                   },
-                  child: const ListTile(
+                  child:  ListTile(
                     title: Text(
-                      'Mayur Kamble',
-                      style: TextStyle(
+                      '$fname $lname',
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 15,
                           fontWeight: FontWeight.w500),
                     ),
-                    trailing: Icon(
+                    trailing: const Icon(
                       Icons.arrow_forward_ios_outlined,
                       color: Colors.white,
                       size: 15,
                     ),
-                    subtitle: Text(
-                      'mayurkamble847@gmail.com',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    subtitle:  Text(
+                      email,
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ),
                 ),
@@ -83,14 +107,14 @@ class _DrawerState extends State<USerDrawer> {
                   MaterialPageRoute(builder: (context) => const CartPage()));
             },
             child: ListTile(
-                title: Text(
+                title: const Text(
                   'Wishlist',
                   style: TextStyle(
                       color: Colors.blueGrey,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
-                leading: Icon(
+                leading: const Icon(
                   Icons.favorite,
                   color: Colors.pink,
                   size: 18,

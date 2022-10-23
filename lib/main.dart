@@ -30,24 +30,25 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool isSignedIn=false;
+  bool isSignedIn = false;
 
-  Future<void> getLoginStatus() async
-  {
+  Future<void> getLoginStatus() async {
     setState(() {
-      isSignedIn=FirebaseAuth.instance.currentUser!=null;
+      isSignedIn = FirebaseAuth.instance.currentUser != null;
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getLoginStatus();
   }
+
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
+    return Scaffold(
         backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-        body:isSignedIn?const HomeScren():const LoginScreen());
+        body: isSignedIn ? const HomeScren() : const LoginScreen());
   }
 }
