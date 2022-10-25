@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/Screens/AuthenticationScreens/loginScreen.dart';
-import 'package:untitled/Screens/HomeScreens/homeScreen.dart';
+
+import 'Screens/AuthenticationScreens/loginScreen.dart';
+import 'Screens/HomeScreens/homeScreen.dart';
+import 'Screens/ProductView/checkoutpage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,8 +49,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-        body: isSignedIn ? const HomeScren() : const LoginScreen());
+    return  Scaffold(
+        backgroundColor: Color.fromRGBO(44, 53, 57, 1),
+        body: isSignedIn ?  const HomeScren() :  LoginScreen());
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/Customer/navigation_drawer.dart';
 import 'package:untitled/Screens/CartScreen/cartScreen.dart';
+
+import 'My_information.dart';
+import 'navigation_drawer.dart';
 
 class CustomerProfile extends StatefulWidget {
   const CustomerProfile({Key? key}) : super(key: key);
@@ -14,7 +16,6 @@ class _CustomerProfileState extends State<CustomerProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: const USerDrawer(),
       appBar: AppBar(
         title: const Text('Profile'),
         backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
@@ -23,17 +24,11 @@ class _CustomerProfileState extends State<CustomerProfile> {
       body: Container(
         color: Colors.white,
         height: MediaQuery.of(context).size.height,
-        child: ListView(
+        child: Column(
           children: [
             Container(
               height: MediaQuery.of(context).size.height / 5,
               color: Colors.blueGrey, //const Color.fromRGBO(44, 53, 57, 1),
-              // decoration: const BoxDecoration(
-              //   image: DecorationImage(
-              //     image: AssetImage('assets/images/mayur.jpg'),
-              //     fit: BoxFit.fitWidth
-              //   )
-              // ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,33 +66,34 @@ class _CustomerProfileState extends State<CustomerProfile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 5),
-                  height: 55,
-                  width: MediaQuery.of(context).size.width / 2.3,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green),
-                      borderRadius: BorderRadius.circular(10)),
-                  // margin: const EdgeInsets.only(left: 10.0,right: 18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.shopping_cart_checkout_rounded,
-                        color: Colors.blueGrey,
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const MyInformation()));
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 5),
+                    height: 55,
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueGrey),
+                        borderRadius: BorderRadius.circular(10)),
+                    // margin: const EdgeInsets.only(left: 10.0,right: 18.0),
+                    child: const ListTile(
+                      horizontalTitleGap: 2,
+                      leading: Icon(
+                        Icons.info_outline,
+                        color: Colors.pink,
                         size: 18,
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Orders',
+                      title:Text(
+                        'My information',
                         style: TextStyle(
                             color: Colors.blueGrey,
-                            fontSize: 16,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ),
-                    ],
+                    ),
+
                   ),
                 ),
                 GestureDetector(
@@ -112,28 +108,23 @@ class _CustomerProfileState extends State<CustomerProfile> {
                       height: 55,
                       width: MediaQuery.of(context).size.width / 2.3,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.pinkAccent),
+                          border: Border.all(color: Colors.blueGrey),
                           borderRadius: BorderRadius.circular(10)),
                       // margin: const EdgeInsets.only(left: 10.0,right: 18.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.favorite,
-                            color: Colors.pink,
-                            size: 18,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Wishlist',
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                      child: const ListTile(
+                        horizontalTitleGap: 2,
+                        leading: Icon(
+                          Icons.favorite,
+                          color: Colors.pink,
+                          size: 18,
+                        ),
+                        title:Text(
+                          'Wishlist',
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ))
               ],
@@ -144,71 +135,102 @@ class _CustomerProfileState extends State<CustomerProfile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 5),
-                  height: 55,
-                  width: MediaQuery.of(context).size.width / 2.3,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10)),
-                  // margin: const EdgeInsets.only(left: 10.0,right: 18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.info_outline,
-                        color: Colors.blueGrey,
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
+
+                  },
+                  child: Container(
+                    // margin: const EdgeInsets.only(left: 5),
+                    height: 55,
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueGrey),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const ListTile(
+                      horizontalTitleGap: 2,
+                      leading:   Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.brown,
                         size: 18,
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'My info',
+                      title: Text(
+                        'Orders',
                         style: TextStyle(
                             color: Colors.blueGrey,
-                            fontSize: 16,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold),
                       ),
-                    ],
+
+                    ),
                   ),
-                  // child: ListTile(
-                  //   title: Text('Orders',style: TextStyle(color: Colors.blueGrey,fontSize: 16,fontWeight: FontWeight.bold),),
-                  //   leading: Icon(Icons.shopping_cart_checkout_rounded,color: Colors.blueGrey,size: 18,),
-                  //   trailing: Icon(Icons.arrow_forward_ios_outlined,color: Colors.blueGrey,size: 15,),
-                  // ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(right: 5),
+                  // margin: const EdgeInsets.only(left: 5),
                   height: 55,
                   width: MediaQuery.of(context).size.width / 2.3,
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
+                      border: Border.all(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(10)),
-                  // margin: const EdgeInsets.only(left: 10.0,right: 18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.logout,
-                        color: Colors.blueGrey,
-                        size: 15,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Log out',
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  child: const ListTile(
+                    horizontalTitleGap: 2,
+                    leading: Icon(
+                      Icons.done_all_outlined,
+                      color: Colors.green,
+                      size: 18,
+                    ),
+                    title: Text(
+                      'Completed Orders',
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                    ),
+
                   ),
-                )
+                ),
               ],
             ),
+            const SizedBox(
+              height: 30,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 25,bottom: 40),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        Icon(
+                          Icons.logout,
+                          color: Colors.blueGrey,
+                          size: 20,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Log out',
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+
+                  ),
+                ],
+              ),
+            ),
+
           ],
         ),
       ),

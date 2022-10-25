@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:like_button/like_button.dart';
 import 'package:untitled/Models/productmodel.dart';
 import 'package:untitled/Screens/CartScreen/cartScreen.dart';
+import 'package:untitled/Screens/ProductView/checkoutpage.dart';
 
 class ProductDetails extends StatefulWidget {
   // const ProductDetails({Key? key}) : super(key: key);
@@ -264,12 +265,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ],
                       ),
                       buildDivider(),
-                      Container(
-                        color: Colors.green,
-                        margin: const EdgeInsets.all(20),
-                        padding: const EdgeInsets.all(15),
-                        child: const Center(
-                          child: Text('Buy',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const Info()));
+                        },
+                        child: Container(
+                          color: Colors.green,
+                          margin: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(15),
+                          child: const Center(
+                            child: Text('Buy',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),),
+                          ),
                         ),
                       ),
                       //const SizedBox(height: 137)
