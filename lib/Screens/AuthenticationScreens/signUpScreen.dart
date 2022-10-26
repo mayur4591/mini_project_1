@@ -358,6 +358,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         .createUserWithEmailAndPassword(
             email: user.email, password: passwordController.text.toString())
         .then((value) => {
+          Navigator.pop(context),
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const VerifyUser()))
             }).onError((error, stackTrace) => {

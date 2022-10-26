@@ -32,7 +32,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool isSignedIn = false;
+  var isSignedIn ;
 
   Future<void> getLoginStatus() async {
     setState(() {
@@ -44,13 +44,15 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getLoginStatus();
+    getLoginStatus().then((value) =>
+        print(isSignedIn)
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-        backgroundColor: Color.fromRGBO(44, 53, 57, 1),
-        body: isSignedIn ?  const HomeScren() :  LoginScreen());
+        backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
+        body: isSignedIn ?  const HomeScren() :  const LoginScreen());
   }
 }

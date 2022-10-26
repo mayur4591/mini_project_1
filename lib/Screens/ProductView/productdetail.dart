@@ -12,28 +12,31 @@ class ProductDetails extends StatefulWidget {
 
   String image;
   String price;
-  int rating;
   String name;
+  String details;
+  String materials;
+
   @override
   // ignore: no_logic_in_create_state
-  State<ProductDetails> createState() => _ProductDetailsState(image,price,rating,name);
+  State<ProductDetails> createState() => _ProductDetailsState(image,price,name,this.details,materials);
 
-  ProductDetails(this.image, this.price, this.rating, this.name);
+  ProductDetails(this.image, this.price,this.name,this.details,this.materials);
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
 
   String image;
   String price;
-  int rating;
   String name;
+  String materials;
+  String details;
 
 
-  _ProductDetailsState(this.image, this.price, this.rating, this.name);
+  _ProductDetailsState(this.image, this.price, this.name, this.details,this.materials);
+
   @override
   void initState() {
     // TODO: implement initState
-    wishListCount=productList.length;
     super.initState();
   }
 
@@ -67,7 +70,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             backgroundColor: Colors.transparent,//const Color.fromRGBO(44, 53, 57, 1),
             expandedHeight: 320,//(450*size.height)/897.2549187389994,
             flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(image,fit: BoxFit.contain,)
+                background: Image.network(image,fit: BoxFit.contain,)
     )
           ),
           SliverToBoxAdapter(
@@ -107,17 +110,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.w500),),
-                        subtitle: const Text('3-set sofa,grey',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w100),
-                        ),
                         trailing: IconButton(
                           onPressed: () {
-                            Product product= Product(image, name, price, rating);
-                                  productList.add(product);
-                                  wishListCount=productList.length;
+                            Product product= Product(image, price, name,details,materials);
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
@@ -178,35 +173,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 fontSize: 15.5,
                               ),
                             ),
-                            Row(
-                              children:  <Widget>[
-                                Icon(
-                                  Icons.star,
-                                  color: rating>=1?Colors.yellow:Colors.white,
-                                  size: 18,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: rating>=2?Colors.yellow:Colors.white,
-                                  size: 18,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: rating>=3?Colors.yellow:Colors.white,
-                                  size: 18,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: rating>=4?Colors.yellow:Colors.white,
-                                  size: 18,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: rating>=5?Colors.yellow:Colors.white,
-                                  size: 18,
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -224,9 +190,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                             padding: const EdgeInsets.only(
                                 left: 17, right: 17, bottom: 10),
                             width: 400,
-                            child: const Text(
-                              'MRP Rs.36,733 (incl. tax)\n\nSeat cushions filled with high resilience foam and polyester fibre wadding give comfortable support for your body, and easily regain their shape when you get up.\n\nBack cushions filled with polyester fibres for soft comfort.\n\nCountry of Origin - India',
-                              style: TextStyle(
+                            child:  Text(
+                              details,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w200,
@@ -250,10 +216,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 left: 17, right: 17, bottom: 10),
                             width: 400,
                             child: Column(
-                              children: const [
+                              children:  [
                                  Text(
-                                  'MRP Rs.36,733 (incl. tax)\n\nSeat cushions filled with high resilience foam and polyester fibre wadding give comfortable support for your body, and easily regain their shape when you get up.\n\nBack cushions filled with polyester fibres for soft comfort.\n\nCountry of Origin - India',
-                                  style: TextStyle(
+                                   materials,
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w200,
@@ -325,10 +291,10 @@ class _ProductDetailsState extends State<ProductDetails> {
           padding: const EdgeInsets.only(top: 9),
           child: MaterialButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
             },
             child: Badge(
-              badgeContent:  Text('${productList.length}'),
+              badgeContent:  Text('0'),
               child: SvgPicture.asset("assets/svg/cart.svg"),
             ),
           ),

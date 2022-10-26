@@ -19,14 +19,16 @@ class _DrawerState extends State<USerDrawer> {
   String email=" ";
   Future<void> getInfo() async {
     FirebaseDatabase.instance.reference().child('Users/all_users/${FirebaseAuth.instance.currentUser!.uid}').once().then((value) => {
-      setState((){
-        Map<dynamic,dynamic> map=value.snapshot.value as Map;
-        fname=map['first_name'];
-        lname=map['last_name'];
-        email=map['email'];
-      }),
+      if(value.snapshot.value!=null)
+        {
+          setState(() {
+            Map<dynamic, dynamic> map = value.snapshot.value as Map;
+            fname = map['first_name'];
+            lname = map['last_name'];
+            email = map['email'];
+          }),
+        }
 
-      print(fname)
     });
   }
   @override
@@ -52,6 +54,7 @@ class _DrawerState extends State<USerDrawer> {
               children: [
                 GestureDetector(
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -103,8 +106,8 @@ class _DrawerState extends State<USerDrawer> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const CartPage()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => const CartPage()));
             },
             child: ListTile(
                 title: const Text(
@@ -120,7 +123,7 @@ class _DrawerState extends State<USerDrawer> {
                   size: 18,
                 ),
                 trailing: Badge(
-                  badgeContent: Text('${productList.length}'),
+                  badgeContent: Text('0'),
                   badgeColor: Colors.pinkAccent.withOpacity(0.3),
                 )),
           )

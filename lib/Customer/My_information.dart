@@ -1,8 +1,39 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class MyInformation extends StatelessWidget {
+class MyInformation extends StatefulWidget {
   const MyInformation({Key? key}) : super(key: key);
 
+  @override
+  State<MyInformation> createState() => _MyInformationState();
+}
+
+class _MyInformationState extends State<MyInformation> {
+
+  String fname=" ";
+  String lname=" ";
+  String email=" ";
+  Future<void> getInfo() async {
+    FirebaseDatabase.instance.reference().child('Users/all_users/${FirebaseAuth.instance.currentUser!.uid}').once().then((value) => {
+      if(value.snapshot.value!=null)
+        {
+          setState(() {
+            Map<dynamic, dynamic> map = value.snapshot.value as Map;
+            fname = map['first_name'];
+            lname = map['last_name'];
+            email = map['email'];
+          }),
+        }
+
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getInfo();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +56,7 @@ class MyInformation extends StatelessWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  const [
+                  children:   [
                     SizedBox(height: 10,),
                     Center(
                       child: Text('Personal Information',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),),
@@ -34,22 +65,12 @@ class MyInformation extends StatelessWidget {
                     Text('First name:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
                     SizedBox(height: 8,),
 
-                    Text('Mayur',style: TextStyle(color: Colors.white,fontSize: 15),),
-                    SizedBox(height: 15,),
+                    Text(fname,style: const TextStyle(color: Colors.white,fontSize: 15),),
+                    const SizedBox(height: 15,),
 
-                    Text('Last name:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
-                    SizedBox(height: 8,),
-
-                    Text('Kamble',style: TextStyle(color: Colors.white,fontSize: 15),),
-                    SizedBox(height: 15,),
-
-                    // SizedBox(height: 15,),
-                    //
-                    // Text('Address:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
-                    // SizedBox(height: 8,),
-                    // Text('Rui,Maharashtra,India',style: TextStyle(color: Colors.white,fontSize: 15)),
-
-
+                    const Text('Last name:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+                    const SizedBox(height: 8,),
+                    Text(lname,style: const TextStyle(color: Colors.white,fontSize: 15),),
 
                   ],
                 ),
@@ -66,24 +87,15 @@ class MyInformation extends StatelessWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  const [
-                    SizedBox(height: 10,),
-                    Center(
+                  children:   [
+                    const SizedBox(height: 10,),
+                    const Center(
                       child: Text('Contact Information',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),),
                     ),
-                    SizedBox(height: 15,),
-                    Text('Phone No:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
-                    SizedBox(height: 8,),
-                    Text('+91 9604221742',style: TextStyle(color: Colors.white,fontSize: 15),),
-                    SizedBox(height: 15,),
-                    Text('Email:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
-                    SizedBox(height: 8,),
-                    Text('mayurkamble847@gmail.com',style: TextStyle(color: Colors.white,fontSize: 15)),
-                    SizedBox(height: 15,),
-                    Text('Address:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
-                    SizedBox(height: 8,),
-                    Text('Rui,Maharashtra,India ',style: TextStyle(color: Colors.white,fontSize: 15)),
-
+                    const SizedBox(height: 15,),
+                    const Text('Email:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+                    const SizedBox(height: 8,),
+                    Text(email,style: const TextStyle(color: Colors.white,fontSize: 15)),
 
                   ],
                 ),

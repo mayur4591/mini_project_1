@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/Screens/ProductView/productdetail.dart';
@@ -16,44 +18,16 @@ class HomeScren extends StatefulWidget {
 List<Category> category = [];
 
 class _HomeScrenState extends State<HomeScren> {
-  Product p1 = Product("assets/images/chair.jpg", "White Chair", "450", 3);
-  Product p2 = Product("assets/images/cubured.jpg", "Cupboard", "14,450", 4);
-  Product p3 = Product("assets/images/kingchair.jpg", "King Chair", "1450", 5);
-  Product p4 = Product("assets/images/sofa.jpg", "Red sofa set", "20,550", 4);
-  Product p5 =
-      Product("assets/images/sofachair.jpg", "Ocen blue sofa", "3450", 5);
-  Product p6 =
-      Product("assets/images/swingchair.jpg", "Swing chair", "2450", 3);
-  Product p7 = Product("assets/images/table.jpg", "Wooden Table", "7450", 5);
-  Product p8 = Product("assets/images/workdesk.jpg", "Working desk", "9450", 4);
+  late Query _ref;
 
-  Category c1 = Category("Tables", "assets/images/tablecategorie.jpg");
-  Category c2 = Category("Couches", "assets/images/couchcategory.jpg");
-  Category c3 = Category("Sofas", "assets/images/sofacategory.jpg");
-  Category c4 = Category("Cupboards", "assets/images/cupboardcategory.jpg");
-  Category c5 = Category("Chairs", "assets/images/chaircategory.jpg");
-  Category c6 = Category("Benches", "assets/images/benchcategory.jpg");
-
-  List<Product> productList = [];
 
   @override
   void initState() {
     // TODO: implement initState
-    category.add(c1);
-    category.add(c2);
-    category.add(c3);
-    category.add(c4);
-    category.add(c5);
-    category.add(c6);
-    productList.add(p1);
-    productList.add(p2);
-    productList.add(p3);
-    productList.add(p4);
-    productList.add(p5);
-    productList.add(p6);
-    productList.add(p7);
-    productList.add(p8);
+
     super.initState();
+    _ref=FirebaseDatabase.instance.reference().child('posts');
+
   }
 
   @override
@@ -71,34 +45,45 @@ class _HomeScrenState extends State<HomeScren> {
         ),
       ),
       backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-      body: ListView.builder(
-          itemCount: productList.length + 2,
-          itemBuilder: (BuildContext context, int index) {
-            return index == 0
-                ? const Categories()
-                : index == 1
-                    ? const DivederWidget()
-                    : GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProductDetails(
-                                      productList[index - 2].image,
-                                      productList[index - 2].price,
-                                      productList[index - 2].ratings,
-                                      productList[index - 2].product_name)));
-                        },
-                        child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: boxes(
-                                name: productList[index - 2].product_name,
-                                price: productList[index - 2].price,
-                                image: productList[index - 2].image,
-                                ratings: productList[index - 2].ratings)),
-                      );
-          }),
+      body: buildHome()
     );
+  }
+
+
+  Widget _buildListView(Map product) {
+    print(product.values);
+    print(product.length);
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProductDetails(
+                    product['image_url'],
+                    product['product_price'],
+                    product['product_name'],
+                    product['product_details'],
+                    product['product_materials']
+                )));
+      },
+      child: Container(
+          padding: const EdgeInsets.all(10),
+          child: boxes(
+            name: product['product_name'],
+            price: product['product_price'],
+            image: product['image_url'],
+          )),
+    );
+  }
+
+  Widget buildHome() {
+    return FirebaseAnimatedList(
+        query: _ref,
+        itemBuilder: (BuildContext cotext, DataSnapshot snapshot,
+            Animation<double> animation, int index) {
+          Map<dynamic, dynamic>? owners = snapshot.value as Map?;
+          return _buildListView(owners!);
+        });
   }
 }
 
@@ -137,37 +122,36 @@ class DivederWidget extends StatelessWidget {
   }
 }
 
-class Categories extends StatelessWidget {
-  const Categories({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      height: (MediaQuery.of(context).size.height * (3.7)) / 27,
-      width: double.maxFinite,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: category.length,
-        itemBuilder: (BuildContext context, int index) {
-          return circulars(
-              decor: category[index].name, image: category[index].image);
-        },
-      ),
-    );
-  }
-}
+// class Categories extends StatelessWidget {
+//   const Categories({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.all(8),
+//       height: (MediaQuery.of(context).size.height * (3.7)) / 27,
+//       width: double.maxFinite,
+//       child: ListView.builder(
+//         scrollDirection: Axis.horizontal,
+//         itemCount: category.length,
+//         itemBuilder: (BuildContext context, int index) {
+//           return circulars(
+//               decor: category[index].name, image: category[index].image);
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class boxes extends StatelessWidget {
   boxes(
       {required this.name,
-      required this.price,
-      required this.image,
-      required this.ratings});
+        required this.price,
+        required this.image,
+      });
 
   final String name;
   final String price;
-  final int ratings;
   final String image;
   @override
   Widget build(BuildContext context) {
@@ -185,7 +169,7 @@ class boxes extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: Image(
               fit: BoxFit.cover,
-              image: AssetImage(
+              image: NetworkImage(
                 image,
               ),
               // height: 120.0,
@@ -195,67 +179,67 @@ class boxes extends StatelessWidget {
           const SizedBox(
             width: 20.0,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(
-                height: 20.0,
-              ),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Text(
                   name,
+                  overflow: TextOverflow.clip,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 25,
                     color: Colors.white,
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                "Rs." + price + "/-",
-                style: const TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: ratings >= 1 ? Colors.yellow : Colors.white,
-                    size: 15,
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: ratings >= 2 ? Colors.yellow : Colors.white,
-                    size: 15,
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: ratings >= 3 ? Colors.yellow : Colors.white,
-                    size: 15,
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: ratings >= 4 ? Colors.yellow : Colors.white,
-                    size: 15,
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: ratings >= 5 ? Colors.yellow : Colors.white,
-                    size: 15,
-                  )
-                ],
-              )
-            ],
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Rs." + price + "/-",
+                  style: const TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Icon(
+                //       Icons.star,
+                //       color: ratings >= 1 ? Colors.yellow : Colors.white,
+                //       size: 15,
+                //     ),
+                //     Icon(
+                //       Icons.star,
+                //       color: ratings >= 2 ? Colors.yellow : Colors.white,
+                //       size: 15,
+                //     ),
+                //     Icon(
+                //       Icons.star,
+                //       color: ratings >= 3 ? Colors.yellow : Colors.white,
+                //       size: 15,
+                //     ),
+                //     Icon(
+                //       Icons.star,
+                //       color: ratings >= 4 ? Colors.yellow : Colors.white,
+                //       size: 15,
+                //     ),
+                //     Icon(
+                //       Icons.star,
+                //       color: ratings >= 5 ? Colors.yellow : Colors.white,
+                //       size: 15,
+                //     )
+                //   ],
+                // )
+              ],
+            ),
           ),
           SizedBox(
             width: 30,
@@ -271,6 +255,7 @@ class circulars extends StatelessWidget {
 
   final String decor;
   final String image;
+
 
   @override
   Widget build(BuildContext context) {

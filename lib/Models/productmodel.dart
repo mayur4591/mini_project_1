@@ -2,7 +2,9 @@ class Product{
   String image;
   String product_name;
   String price;
-  int ratings;
+  String details;
+  String materials;
 
-  Product(this.image, this.product_name, this.price, this.ratings);
+
+  Product(this.image, this.product_name, this.price, this.details,this.materials);
 }

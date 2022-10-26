@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/Screens/AuthenticationScreens/loginScreen.dart';
 import 'package:untitled/Screens/CartScreen/cartScreen.dart';
 
 import 'My_information.dart';
@@ -13,6 +16,31 @@ class CustomerProfile extends StatefulWidget {
 }
 
 class _CustomerProfileState extends State<CustomerProfile> {
+
+  String fname=" ";
+  String lname=" ";
+  String email=" ";
+  Future<void> getInfo() async {
+    FirebaseDatabase.instance.reference().child('Users/all_users/${FirebaseAuth.instance.currentUser!.uid}').once().then((value) => {
+      if(value.snapshot.value!=null)
+        {
+          setState(() {
+            Map<dynamic, dynamic> map = value.snapshot.value as Map;
+            fname = map['first_name'];
+            lname = map['last_name'];
+            email = map['email'];
+          }),
+        }
+
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +69,17 @@ class _CustomerProfileState extends State<CustomerProfile> {
                         Icons.arrow_back,
                         color: Colors.white,
                       )),
-                  const ListTile(
+                   ListTile(
                     title: Text(
-                      'Mayur Kamble',
-                      style: TextStyle(
+                      '$fname $lname',
+                      style:  const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      'mayurkamble847@gmail.com',
-                      style: TextStyle(
+                      email,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w500),
@@ -97,12 +125,12 @@ class _CustomerProfileState extends State<CustomerProfile> {
                   ),
                 ),
                 GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CartPage()));
-                    },
+                    // onTap: () {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => const CartPage()));
+                    //},
                     child: Container(
                       margin: const EdgeInsets.only(right: 5),
                       height: 55,
@@ -137,7 +165,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
 
                   },
                   child: Container(
@@ -165,30 +193,30 @@ class _CustomerProfileState extends State<CustomerProfile> {
                     ),
                   ),
                 ),
-                Container(
-                  // margin: const EdgeInsets.only(left: 5),
-                  height: 55,
-                  width: MediaQuery.of(context).size.width / 2.3,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueGrey),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: const ListTile(
-                    horizontalTitleGap: 2,
-                    leading: Icon(
-                      Icons.done_all_outlined,
-                      color: Colors.green,
-                      size: 18,
-                    ),
-                    title: Text(
-                      'Completed Orders',
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    ),
-
-                  ),
-                ),
+                // Container(
+                //   // margin: const EdgeInsets.only(left: 5),
+                //   height: 55,
+                //   width: MediaQuery.of(context).size.width / 2.3,
+                //   decoration: BoxDecoration(
+                //       border: Border.all(color: Colors.blueGrey),
+                //       borderRadius: BorderRadius.circular(10)),
+                //   child: const ListTile(
+                //     horizontalTitleGap: 2,
+                //     leading: Icon(
+                //       Icons.done_all_outlined,
+                //       color: Colors.green,
+                //       size: 18,
+                //     ),
+                //     title: Text(
+                //       'Completed Orders',
+                //       style: TextStyle(
+                //           color: Colors.blueGrey,
+                //           fontSize: 12,
+                //           fontWeight: FontWeight.bold),
+                //     ),
+                //
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(
@@ -202,30 +230,37 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 25,bottom: 40),
+                  GestureDetector(
+                    onTap: (){
+                      FirebaseAuth.instance.signOut().then((value) => {
+                        Navigator.popUntil(context, (route) => false),
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()))
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 25,bottom: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          Icon(
+                            Icons.logout,
+                            color: Colors.blueGrey,
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Log out',
+                            style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
 
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Icon(
-                          Icons.logout,
-                          color: Colors.blueGrey,
-                          size: 20,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Log out',
-                          style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
                     ),
-
                   ),
                 ],
               ),

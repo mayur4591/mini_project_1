@@ -8,13 +8,13 @@ class Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CheckoutPage('', '', 'city', 'state', 'name', '0', 0);
+    return CheckoutPage('', '', 'city', 'state', 'name', '0', "");
   }
 }
 
 class CheckoutPage extends StatefulWidget {
   String address = "", land_mark= "", city = "", state = "",name="",phon_num="";
-  int pincode = 0;
+  String pincode = "";
 
 
   CheckoutPage(this.address, this.land_mark, this.city, this.state, this.name,
@@ -27,7 +27,7 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   String address = "", land_mark= "", city = "", state = "",name="",phon_num="";
-  int pincode = 0;
+  String pincode = "";
 
   _CheckoutPageState(this.address, this.land_mark, this.city, this.state,
       this.name, this.phon_num, this.pincode);
@@ -51,7 +51,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: ListView(
           children: [
             const Text(
@@ -107,7 +107,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 hintText: "Phone Number",
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             const Text(
               'Location Deatils',
               textAlign: TextAlign.left,
@@ -157,7 +157,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               keyboardType:TextInputType.number ,
               onChanged: (text) {
                 setState(() {
-                  pincode = text as int;
+                  pincode = text;
                 });
               },
               decoration: const InputDecoration(
@@ -170,7 +170,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
             buildSizedBox(10),
             const Text('City',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 15)),
             buildSizedBox(5),
-
             TextField(
               onChanged: (text) {
                 setState(() {
@@ -187,7 +186,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
             buildSizedBox(10),
             const Text('State',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 15)),
             buildSizedBox(5),
-
             TextField(
               onChanged: (text) {
                 setState(() {
