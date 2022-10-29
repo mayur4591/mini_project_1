@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled/Screens/AuthenticationScreens/loginScreen.dart';
 import 'package:untitled/Screens/CartScreen/cartScreen.dart';
 
+import 'My Orders.dart';
 import 'My_information.dart';
 import 'navigation_drawer.dart';
 
@@ -125,47 +126,8 @@ class _CustomerProfileState extends State<CustomerProfile> {
                   ),
                 ),
                 GestureDetector(
-                    // onTap: () {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => const CartPage()));
-                    //},
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 5),
-                      height: 55,
-                      width: MediaQuery.of(context).size.width / 2.3,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blueGrey),
-                          borderRadius: BorderRadius.circular(10)),
-                      // margin: const EdgeInsets.only(left: 10.0,right: 18.0),
-                      child: const ListTile(
-                        horizontalTitleGap: 2,
-                        leading: Icon(
-                          Icons.favorite,
-                          color: Colors.pink,
-                          size: 18,
-                        ),
-                        title:Text(
-                          'Wishlist',
-                          style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ))
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
                   onTap: (){
-                    // Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const OrderList()));
 
                   },
                   child: Container(
@@ -193,32 +155,101 @@ class _CustomerProfileState extends State<CustomerProfile> {
                     ),
                   ),
                 ),
-                // Container(
-                //   // margin: const EdgeInsets.only(left: 5),
-                //   height: 55,
-                //   width: MediaQuery.of(context).size.width / 2.3,
-                //   decoration: BoxDecoration(
-                //       border: Border.all(color: Colors.blueGrey),
-                //       borderRadius: BorderRadius.circular(10)),
-                //   child: const ListTile(
-                //     horizontalTitleGap: 2,
-                //     leading: Icon(
-                //       Icons.done_all_outlined,
-                //       color: Colors.green,
-                //       size: 18,
-                //     ),
-                //     title: Text(
-                //       'Completed Orders',
-                //       style: TextStyle(
-                //           color: Colors.blueGrey,
-                //           fontSize: 12,
-                //           fontWeight: FontWeight.bold),
-                //     ),
-                //
-                //   ),
-                // ),
+                // GestureDetector(
+                //     // onTap: () {
+                //     //   Navigator.push(
+                //     //       context,
+                //     //       MaterialPageRoute(
+                //     //           builder: (context) => const CartPage()));
+                //     //},
+                //     child: Container(
+                //       margin: const EdgeInsets.only(right: 5),
+                //       height: 55,
+                //       width: MediaQuery.of(context).size.width / 2.3,
+                //       decoration: BoxDecoration(
+                //           border: Border.all(color: Colors.blueGrey),
+                //           borderRadius: BorderRadius.circular(10)),
+                //       // margin: const EdgeInsets.only(left: 10.0,right: 18.0),
+                //       child: const ListTile(
+                //         horizontalTitleGap: 2,
+                //         leading: Icon(
+                //           Icons.favorite,
+                //           color: Colors.pink,
+                //           size: 18,
+                //         ),
+                //         title:Text(
+                //           'Wishlist',
+                //           style: TextStyle(
+                //               color: Colors.blueGrey,
+                //               fontSize: 12,
+                //               fontWeight: FontWeight.bold),
+                //         ),
+                //       ),
+                //     ))
               ],
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     GestureDetector(
+            //       onTap: (){
+            //         Navigator.push(context, MaterialPageRoute(builder: (context)=> const OrderList()));
+            //
+            //       },
+            //       child: Container(
+            //         // margin: const EdgeInsets.only(left: 5),
+            //         height: 55,
+            //         width: MediaQuery.of(context).size.width / 2.3,
+            //         decoration: BoxDecoration(
+            //             border: Border.all(color: Colors.blueGrey),
+            //             borderRadius: BorderRadius.circular(10)),
+            //         child: const ListTile(
+            //           horizontalTitleGap: 2,
+            //           leading:   Icon(
+            //             Icons.shopping_cart_outlined,
+            //             color: Colors.brown,
+            //             size: 18,
+            //           ),
+            //           title: Text(
+            //             'Orders',
+            //             style: TextStyle(
+            //                 color: Colors.blueGrey,
+            //                 fontSize: 12,
+            //                 fontWeight: FontWeight.bold),
+            //           ),
+            //
+            //         ),
+            //       ),
+            //     ),
+            //     // Container(
+            //     //   // margin: const EdgeInsets.only(left: 5),
+            //     //   height: 55,
+            //     //   width: MediaQuery.of(context).size.width / 2.3,
+            //     //   decoration: BoxDecoration(
+            //     //       border: Border.all(color: Colors.blueGrey),
+            //     //       borderRadius: BorderRadius.circular(10)),
+            //     //   child: const ListTile(
+            //     //     horizontalTitleGap: 2,
+            //     //     leading: Icon(
+            //     //       Icons.done_all_outlined,
+            //     //       color: Colors.green,
+            //     //       size: 18,
+            //     //     ),
+            //     //     title: Text(
+            //     //       'Completed Orders',
+            //     //       style: TextStyle(
+            //     //           color: Colors.blueGrey,
+            //     //           fontSize: 12,
+            //     //           fontWeight: FontWeight.bold),
+            //     //     ),
+            //     //
+            //     //   ),
+            //     // ),
+            //   ],
+            // ),
             const SizedBox(
               height: 30,
             ),

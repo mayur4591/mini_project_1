@@ -143,11 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           print(emailController.text);
                           print(passwordController.text);
-                          // doSignInUser(emailController.text,passwordController.text);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomeScren()));
+                          doSignInUser(emailController.text,passwordController.text);
+
                         },
                       )),
                 ),

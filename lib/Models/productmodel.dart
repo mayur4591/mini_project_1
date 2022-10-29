@@ -4,7 +4,9 @@ class Product{
   String price;
   String details;
   String materials;
+  String owner_id;
+  String product_id;
 
 
-  Product(this.image, this.product_name, this.price, this.details,this.materials);
+  Product(this.image, this.product_name, this.price, this.details,this.materials,this.owner_id,this.product_id);
 }

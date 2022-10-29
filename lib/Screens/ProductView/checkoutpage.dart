@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:untitled/Models/productmodel.dart';
 import 'summaryPage.dart';
 
 
 class Info extends StatelessWidget {
-  const Info({Key? key}) : super(key: key);
+  // const Info({Key? key}) : super(key: key);
+
+  Product product;
+
+  Info(this.product);
 
   @override
   Widget build(BuildContext context) {
-    return CheckoutPage('', '', 'city', 'state', 'name', '0', "");
+    return CheckoutPage('', '', 'city', 'state', 'name', '0', "",product);
   }
 }
 
 class CheckoutPage extends StatefulWidget {
   String address = "", land_mark= "", city = "", state = "",name="",phon_num="";
   String pincode = "";
+  Product product;
 
 
   CheckoutPage(this.address, this.land_mark, this.city, this.state, this.name,
-      this.phon_num, this.pincode);
+      this.phon_num, this.pincode,this.product);
 
   @override
   State<CheckoutPage> createState() =>
-      _CheckoutPageState(address, land_mark, city, state, name,phon_num,pincode);
+      _CheckoutPageState(address, land_mark, city, state, name,phon_num,pincode,this.product);
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
   String address = "", land_mark= "", city = "", state = "",name="",phon_num="";
   String pincode = "";
+  Product product;
 
   _CheckoutPageState(this.address, this.land_mark, this.city, this.state,
-      this.name, this.phon_num, this.pincode);
+      this.name, this.phon_num, this.pincode,this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +102,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             buildSizedBox(5),
             TextField(
               keyboardType: TextInputType.number,
+              maxLength: 10,
               onChanged: (text) {
                 setState(() {
                   phon_num = text;
@@ -212,19 +220,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
+                if(name.isEmpty || address.isEmpty || city.isEmpty || pincode.isEmpty || phon_num.isEmpty || land_mark.isEmpty || state.isEmpty || phon_num.length<10)
+                  {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fill all details',style: TextStyle(color: Colors.black),),backgroundColor: Colors.white,)) ;
+                  }
+                else {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => SummaryPage(
-                            address, land_mark,city, state,name,phon_num,pincode)));
+                            address, land_mark,city, state,name,phon_num,pincode,product)));
+                }
               },
               child:  Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         'Proceed to Checkout',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'ArFunctionality/demo.dart';
 import 'Screens/AuthenticationScreens/loginScreen.dart';
 import 'Screens/HomeScreens/homeScreen.dart';
 import 'Screens/ProductView/checkoutpage.dart';
@@ -53,6 +54,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
         backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-        body: isSignedIn ?  const HomeScren() :  const LoginScreen());
+        body: Demo()//isSignedIn ?  const HomeScren() :  const LoginScreen()
+    );
   }
 }

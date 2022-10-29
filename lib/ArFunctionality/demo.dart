@@ -93,7 +93,7 @@ class _DemoState extends State<Demo> {
 
   Future addItemImage(ArCoreHitTestResult hitResult) async {
     final byte=(await rootBundle.load('assets/img.jpg')).buffer.asUint8List();
-
+      
 
     final imageItem=ArCoreNode(
       image: ArCoreImage(bytes: byte,width: 600,height: 600),

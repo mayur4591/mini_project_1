@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,16 +9,16 @@ import '../../Customer/navigation_drawer.dart';
 import '../../Models/category.dart';
 import '../../Models/productmodel.dart';
 
-class HomeScren extends StatefulWidget {
-  const HomeScren({Key? key}) : super(key: key);
+class OrderList extends StatefulWidget {
+  const OrderList({Key? key}) : super(key: key);
 
   @override
-  State<HomeScren> createState() => _HomeScrenState();
+  State<OrderList> createState() => _OrderList();
 }
 
 List<Category> category = [];
 
-class _HomeScrenState extends State<HomeScren> {
+class _OrderList extends State<OrderList> {
   late Query _ref;
 
   bool isListEmpty=false;
@@ -36,9 +37,8 @@ class _HomeScrenState extends State<HomeScren> {
   void initState() {
     // TODO: implement initState
 
-
     super.initState();
-    _ref=FirebaseDatabase.instance.reference().child('posts');
+    _ref=FirebaseDatabase.instance.reference().child('Users/all_users/${FirebaseAuth.instance.currentUser!.uid}/orders');
     check();
 
   }
@@ -49,25 +49,23 @@ class _HomeScrenState extends State<HomeScren> {
     print(size.width);
     print(size.height);
     return Scaffold(
-      drawer: const USerDrawer(),
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
+          title: const Text(
+            'My orders',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
         ),
-      ),
-      backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-      body: isListEmpty==false? buildHome(): Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          Center(child: Text('No data present ',style: TextStyle(color: Colors.grey,fontSize: 15,fontWeight: FontWeight.w500),)),
-          SizedBox(height: 10,),
-          Center(child: Text('Wait till someone upload new product ',style: TextStyle(color: Colors.grey,fontSize: 10,fontWeight: FontWeight.w500),)),
-        ],
-      )
-
+        backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
+        body:isListEmpty==false? buildHome():Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Center(child: Text('You have not placed any order ',style: TextStyle(color: Colors.grey,fontSize: 15,fontWeight: FontWeight.w500),)),
+            SizedBox(height: 10,),
+            Center(child: Text('Your orders will appear here... ',style: TextStyle(color: Colors.grey,fontSize: 10,fontWeight: FontWeight.w500),)),
+          ],
+        )
     );
   }
 
@@ -77,25 +75,28 @@ class _HomeScrenState extends State<HomeScren> {
     print(product.length);
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetails(
-                    product['image_url'],
-                    product['product_price'],
-                    product['product_name'],
-                    product['product_details'],
-                    product['product_materials'],
-                    product['owner_id'],
-                    product['product_id']
-                )));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => ProductDetails(
+        //             product['image_url'],
+        //             product['product_price'],
+        //             product['product_name'],
+        //             product['product_details'],
+        //             product['product_materials'],
+        //             product['owner_id']
+        //         )));
       },
       child: Container(
           padding: const EdgeInsets.all(10),
           child: boxes(
             name: product['product_name'],
-            price: product['product_price'],
+            price: product['total'].toString(),
             image: product['image_url'],
+            qty: product['quantity'].toString(),
+            order_id: product['order_id'],
+            product_id: product['product_id'],
+
           )),
     );
   }
@@ -167,16 +168,28 @@ class DivederWidget extends StatelessWidget {
 //   }
 // }
 
-class boxes extends StatelessWidget {
+class boxes extends StatefulWidget {
   boxes(
       {required this.name,
         required this.price,
         required this.image,
+        required this.qty,
+        required this.order_id,
+        required this.product_id
       });
 
   final String name;
   final String price;
   final String image;
+  final String qty;
+  final String order_id;
+  final String product_id;
+
+  @override
+  State<boxes> createState() => _boxesState();
+}
+
+class _boxesState extends State<boxes> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -194,7 +207,7 @@ class boxes extends StatelessWidget {
             child: Image(
               fit: BoxFit.cover,
               image: NetworkImage(
-                image,
+                widget.image,
               ),
               // height: 120.0,
               width: 120.0,
@@ -211,7 +224,7 @@ class boxes extends StatelessWidget {
                   height: 20.0,
                 ),
                 Text(
-                  name,
+                  widget.name,
                   overflow: TextOverflow.clip,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
@@ -222,55 +235,82 @@ class boxes extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                Text(
-                  "Rs." + price + "/-",
-                  style: const TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total Rs." + widget.price + "/-",
+                      style: const TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20),
+                    ),
+                    Text(
+                      "Qty - " + widget.qty.toString(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15),
+                    ),
+
+                  ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Icon(
-                //       Icons.star,
-                //       color: ratings >= 1 ? Colors.yellow : Colors.white,
-                //       size: 15,
-                //     ),
-                //     Icon(
-                //       Icons.star,
-                //       color: ratings >= 2 ? Colors.yellow : Colors.white,
-                //       size: 15,
-                //     ),
-                //     Icon(
-                //       Icons.star,
-                //       color: ratings >= 3 ? Colors.yellow : Colors.white,
-                //       size: 15,
-                //     ),
-                //     Icon(
-                //       Icons.star,
-                //       color: ratings >= 4 ? Colors.yellow : Colors.white,
-                //       size: 15,
-                //     ),
-                //     Icon(
-                //       Icons.star,
-                //       color: ratings >= 5 ? Colors.yellow : Colors.white,
-                //       size: 15,
-                //     )
-                //   ],
-                // )
+                GestureDetector(
+                  onTap: (){
+                    removeProduct();
+                    setState(() {
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.circular(5)
+                        ),
+                        child: const Text(
+                         'I got this order',
+                         style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),
+                            ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
         ],
       ),
     );
+  }
+
+  Future removeProduct() async{
+    String owner_id="";
+      await FirebaseDatabase.instance.reference().child('posts/${widget.product_id}').once().then((value) => {
+        if(value.snapshot.value!=null)
+          {
+            setState((){
+              Map<dynamic, dynamic> map = value.snapshot.value as Map;
+              owner_id=map['owner_id'];
+              print(owner_id);
+
+            })
+          }
+      }).then((value) async => {
+       await FirebaseDatabase.instance.reference().child('Users/all_users/${FirebaseAuth.instance.currentUser!.uid}/orders/${widget.order_id}').remove().then((value) async => {
+         await FirebaseDatabase.instance.reference().child('Users/all_users/$owner_id/order_request/${widget.order_id}').remove().then((value) async => {
+           await FirebaseDatabase.instance.reference().child('Users/owners/$owner_id/order_request/${widget.order_id}').remove()
+          })
+        })
+      });
   }
 }
 

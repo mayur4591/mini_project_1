@@ -15,12 +15,14 @@ class ProductDetails extends StatefulWidget {
   String name;
   String details;
   String materials;
+  String owner_id;
+  String product_id;
 
   @override
   // ignore: no_logic_in_create_state
-  State<ProductDetails> createState() => _ProductDetailsState(image,price,name,this.details,materials);
+  State<ProductDetails> createState() => _ProductDetailsState(image,price,name,this.details,materials,this.owner_id,this.product_id);
 
-  ProductDetails(this.image, this.price,this.name,this.details,this.materials);
+  ProductDetails(this.image, this.price,this.name,this.details,this.materials,this.owner_id,this.product_id);
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
@@ -30,9 +32,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   String name;
   String materials;
   String details;
+  String owner_id;
+  String product_id;
 
 
-  _ProductDetailsState(this.image, this.price, this.name, this.details,this.materials);
+
+  _ProductDetailsState(this.image, this.price, this.name, this.details,this.materials,this.owner_id,this.product_id);
 
   @override
   void initState() {
@@ -106,33 +111,33 @@ class _ProductDetailsState extends State<ProductDetails> {
                       buildSizedBox(18),
                       ListTile(
                         title: Text(name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.w500),),
-                        trailing: IconButton(
-                          onPressed: () {
-                            Product product= Product(image, price, name,details,materials);
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      child: const Text('Element added to cart...',style: TextStyle(color: Colors.black),),
-                                    ),
-                                    backgroundColor: Colors.white,
-                                  behavior: SnackBarBehavior.floating,
-                                  duration: const Duration(seconds: 2),
-                                    margin: EdgeInsets.only(bottom: 40,left: 20,right: 20),
-                                  )
-                                  );
-                                setState((){
-                                });
-                          },
-                          icon: const Icon(
-                            Icons.add_shopping_cart_sharp,
-                            color: Colors.white,
-                          ),
-                        ),
+                        // trailing: IconButton(
+                        //   onPressed: () {
+                        //     Product product= Product(image, price, name,details,materials,owner_id,product_id);
+                        //           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Container(
+                        //               decoration: BoxDecoration(
+                        //                 borderRadius: BorderRadius.circular(30),
+                        //               ),
+                        //               child: const Text('Element added to cart...',style: TextStyle(color: Colors.black),),
+                        //             ),
+                        //             backgroundColor: Colors.white,
+                        //           behavior: SnackBarBehavior.floating,
+                        //           duration: const Duration(seconds: 2),
+                        //             margin: const EdgeInsets.only(bottom: 40,left: 20,right: 20),
+                        //           )
+                        //           );
+                        //         setState((){
+                        //         });
+                        //   },
+                        //   icon: const Icon(
+                        //     Icons.add_shopping_cart_sharp,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
                       ),
                       buildSizedBox(14),
                        Padding(
@@ -160,22 +165,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                       buildSizedBox(14),
                       buildDivider(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18, vertical: 24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Reviews',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 18, vertical: 24),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       const Text(
+                      //         'Reviews',
+                      //         style: TextStyle(
+                      //           color: Colors.white,
+                      //           fontSize: 15.5,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       buildDivider(),
                       ExpansionTile(
                         title: const Text(
@@ -233,7 +238,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                       buildDivider(),
                       GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const Info()));
+                          Product product=Product(image,name,price,details,materials,owner_id,product_id);
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>  Info(product)));
                         },
                         child: Container(
                           color: Colors.green,
@@ -244,7 +250,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                       ),
-                      //const SizedBox(height: 137)
+                      const SizedBox(height: 137)
                     ],
                   ),
                 ),
@@ -277,6 +283,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       // toolbarHeight: 75,
       backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
       elevation: 2,
+      title: Text('Details'),
       leading: IconButton(
         onPressed: () {
           Navigator.pop(context);
@@ -286,20 +293,20 @@ class _ProductDetailsState extends State<ProductDetails> {
           color: Colors.white,
         ),
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(top: 9),
-          child: MaterialButton(
-            onPressed: (){
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
-            },
-            child: Badge(
-              badgeContent:  Text('0'),
-              child: SvgPicture.asset("assets/svg/cart.svg"),
-            ),
-          ),
-        ),
-      ],
+      // actions: [
+      //   // Padding(
+      //   //   padding: const EdgeInsets.only(top: 9),
+      //   //   child: MaterialButton(
+      //   //     onPressed: (){
+      //   //       // Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
+      //   //     },
+      //   //     child: Badge(
+      //   //       badgeContent:  Text('0'),
+      //   //       child: SvgPicture.asset("assets/svg/cart.svg"),
+      //   //     ),
+      //   //   ),
+      //   // ),
+      // ],
     );
   }
 

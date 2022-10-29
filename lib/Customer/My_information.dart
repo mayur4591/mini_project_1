@@ -102,33 +102,33 @@ class _MyInformationState extends State<MyInformation> {
 
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 38.0, right: 38,top: 38),
-              child: Container(
-                  height: 50,
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: TextButton(
-                    style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.blueAccent),
-                        shape: MaterialStateProperty.all<
-                            RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(28.0),
-                                side: const BorderSide(
-                                    color: Colors.white)))),
-                    child: const Text(
-                      'Edit Profile',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20),
-                    ),
-                    onPressed: () {
-
-                    },
-                  )),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 38.0, right: 38,top: 38),
+            //   child: Container(
+            //       height: 50,
+            //       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            //       child: TextButton(
+            //         style: ButtonStyle(
+            //             foregroundColor: MaterialStateProperty.all<Color>(
+            //                 Colors.blueAccent),
+            //             shape: MaterialStateProperty.all<
+            //                 RoundedRectangleBorder>(
+            //                 RoundedRectangleBorder(
+            //                     borderRadius: BorderRadius.circular(28.0),
+            //                     side: const BorderSide(
+            //                         color: Colors.white)))),
+            //         child: const Text(
+            //           'Edit Profile',
+            //           style: TextStyle(
+            //               color: Colors.white,
+            //               fontWeight: FontWeight.w500,
+            //               fontSize: 20),
+            //         ),
+            //         onPressed: () {
+            //
+            //         },
+            //       )),
+            // ),
 
 
           ],
