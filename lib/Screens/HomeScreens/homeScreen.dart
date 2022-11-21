@@ -87,7 +87,8 @@ class _HomeScrenState extends State<HomeScren> {
                     product['product_details'],
                     product['product_materials'],
                     product['owner_id'],
-                    product['product_id']
+                    product['product_id'],
+                    product['glb_file_url']
                 )));
       },
       child: Container(
@@ -223,7 +224,7 @@ class boxes extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  "Rs." + price + "/-",
+                  "Rs.$price/-",
                   style: const TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.w500,
@@ -265,7 +266,7 @@ class boxes extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
         ],

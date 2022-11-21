@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:badges/badges.dart';
-import 'package:like_button/like_button.dart';
 import 'package:untitled/Models/productmodel.dart';
-import 'package:untitled/Screens/CartScreen/cartScreen.dart';
+import 'package:untitled/Screens/ProductView/arScreen.dart';
 import 'package:untitled/Screens/ProductView/checkoutpage.dart';
 
 class ProductDetails extends StatefulWidget {
-  // const ProductDetails({Key? key}) : super(key: key);
 
 
   String image;
@@ -17,12 +14,13 @@ class ProductDetails extends StatefulWidget {
   String materials;
   String owner_id;
   String product_id;
+  String model;
 
   @override
   // ignore: no_logic_in_create_state
-  State<ProductDetails> createState() => _ProductDetailsState(image,price,name,this.details,materials,this.owner_id,this.product_id);
+  State<ProductDetails> createState() => _ProductDetailsState(image,price,name,this.details,materials,this.owner_id,this.product_id,this.model);
 
-  ProductDetails(this.image, this.price,this.name,this.details,this.materials,this.owner_id,this.product_id);
+  ProductDetails(this.image, this.price,this.name,this.details,this.materials,this.owner_id,this.product_id,this.model);
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
@@ -34,11 +32,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   String details;
   String owner_id;
   String product_id;
+  String model;
 
 
+  _ProductDetailsState(this.image, this.price, this.name, this.details,this.materials,this.owner_id,this.product_id,this.model);
 
-  _ProductDetailsState(this.image, this.price, this.name, this.details,this.materials,this.owner_id,this.product_id);
-
+  bool isGlbPresent=false;
   @override
   void initState() {
     // TODO: implement initState
@@ -56,27 +55,32 @@ class _ProductDetailsState extends State<ProductDetails> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            automaticallyImplyLeading: false,
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(20),
-              child: Container(
-                // margin: const EdgeInsets.only(left: 4, right: 4),
-                decoration: const BoxDecoration(
-                  color:  Color.fromRGBO(44, 53, 57, 1),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
+              automaticallyImplyLeading: false,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(20),
+                child: Container(
+                  // margin: const EdgeInsets.only(left: 4, right: 4),
+                  decoration: const BoxDecoration(
+                    color:  Color.fromRGBO(44, 53, 57, 1),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                  ),
+                  //color: Colors.white,
+                  width: double.maxFinite,
                 ),
-                //color: Colors.white,
-                width: double.maxFinite,
               ),
-            ),
-            pinned: true,
-            backgroundColor: Colors.transparent,//const Color.fromRGBO(44, 53, 57, 1),
-            expandedHeight: 320,//(450*size.height)/897.2549187389994,
-            flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(image,fit: BoxFit.contain,)
-    )
+              pinned: true,
+              backgroundColor: Colors.transparent,//const Color.fromRGBO(44, 53, 57, 1),
+              expandedHeight: 320,//(450*size.height)/897.2549187389994,
+              flexibleSpace: FlexibleSpaceBar(
+                  background:
+                      // ignore: prefer_const_constructors
+                      Center(child: Image.network(image,fit: BoxFit.contain,)),
+
+
+
+              )
           ),
           SliverToBoxAdapter(
             child: Container(
@@ -115,30 +119,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.w500),),
-                        // trailing: IconButton(
-                        //   onPressed: () {
-                        //     Product product= Product(image, price, name,details,materials,owner_id,product_id);
-                        //           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Container(
-                        //               decoration: BoxDecoration(
-                        //                 borderRadius: BorderRadius.circular(30),
-                        //               ),
-                        //               child: const Text('Element added to cart...',style: TextStyle(color: Colors.black),),
-                        //             ),
-                        //             backgroundColor: Colors.white,
-                        //           behavior: SnackBarBehavior.floating,
-                        //           duration: const Duration(seconds: 2),
-                        //             margin: const EdgeInsets.only(bottom: 40,left: 20,right: 20),
-                        //           )
-                        //           );
-                        //         setState((){
-                        //         });
-                        //   },
-                        //   icon: const Icon(
-                        //     Icons.add_shopping_cart_sharp,
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
-                      ),
+
+                        ),
                       buildSizedBox(14),
                        Padding(
                         padding: const EdgeInsets.only(left: 18.0),
@@ -165,22 +147,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                       buildSizedBox(14),
                       buildDivider(),
-                      // Container(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       horizontal: 18, vertical: 24),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       const Text(
-                      //         'Reviews',
-                      //         style: TextStyle(
-                      //           color: Colors.white,
-                      //           fontSize: 15.5,
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       buildDivider(),
                       ExpansionTile(
                         title: const Text(
@@ -238,7 +204,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       buildDivider(),
                       GestureDetector(
                         onTap: (){
-                          Product product=Product(image,name,price,details,materials,owner_id,product_id);
+                          Product product=Product(image,name,price,details,materials,owner_id,product_id,model);
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>  Info(product)));
                         },
                         child: Container(
@@ -282,6 +248,27 @@ class _ProductDetailsState extends State<ProductDetails> {
     return AppBar(
       // toolbarHeight: 75,
       backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
+      actions:  [
+        GestureDetector(
+          onTap: ()
+          {
+            print(model);
+            if(model.isNotEmpty) {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> ModelViewerScreen(model)));
+            } else
+              {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Model is not available for this product.',style: TextStyle(color: Colors.black)),backgroundColor: Colors.white,));
+              }
+          },
+          child: Container(margin:EdgeInsets.only(right: 10),child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.fullscreen_rounded,color: Colors.white,size: 25,),
+            SizedBox(height: 1,),
+            Text('View in 3D',style: TextStyle(color: Colors.white,fontSize: 13),)
+          ],
+      )),
+        )],
       elevation: 2,
       title: Text('Details'),
       leading: IconButton(
@@ -293,234 +280,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           color: Colors.white,
         ),
       ),
-      // actions: [
-      //   // Padding(
-      //   //   padding: const EdgeInsets.only(top: 9),
-      //   //   child: MaterialButton(
-      //   //     onPressed: (){
-      //   //       // Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartPage()));
-      //   //     },
-      //   //     child: Badge(
-      //   //       badgeContent:  Text('0'),
-      //   //       child: SvgPicture.asset("assets/svg/cart.svg"),
-      //   //     ),
-      //   //   ),
-      //   // ),
-      // ],
     );
   }
 
-  Future<bool> onLikeButtonTapped(bool isLiked) async {
-    /// send your request here
-    // final bool success= await sendRequest();
-    /// if failed, you can do nothing
-    // return success? !isLiked:isLiked;
-    return !isLiked;
-  }
 }
 
 
-// body: SafeArea(
-//   child: Stack(
-//     children: [
-//       Container(
-//         height: size.height * 0.35,
-//         alignment: Alignment.center,
-//         // color: Colors.white,
-//         child: Image.asset('assets/images/sofa_3.jpg'),
-//       ),
-//       DraggableScrollableSheet(
-//         maxChildSize: .72,
-//         initialChildSize: .63,
-//         minChildSize: .63,
-//         builder: (context, scrollController) {
-//           return Padding(
-//             padding: const EdgeInsets.all(2.0),
-//             child: Container(
-//               decoration: const BoxDecoration(
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(20),
-//                   topRight: Radius.circular(20),
-//                 ),
-//                 color: Color.fromRGBO(44, 53, 57, 1),
-//               ),
-//               child: SingleChildScrollView(
-//                 controller: scrollController,
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   mainAxisSize: MainAxisSize.max,
-//                   children: [
-//                     buildSizedBox(10),
-//                     Container(
-//                       alignment: Alignment.center,
-//                       child: Container(
-//                         width: 50,
-//                         height: 5,
-//                         decoration: BoxDecoration(
-//                           color: Colors.grey.shade50,
-//                           borderRadius: const BorderRadius.all(
-//                             Radius.circular(10),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                     buildSizedBox(18),
-//                     Container(
-//                       padding: const EdgeInsets.only(left: 18),
-//                       alignment: Alignment.centerLeft,
-//                       child: const Text(
-//                         'GAMMALBYN',
-//                         style: TextStyle(
-//                             color: Colors.white,
-//                             fontSize: 18,
-//                             fontWeight: FontWeight.w400),
-//                       ),
-//                     ),
-//                     buildSizedBox(6),
-//                     Container(
-//                       padding: const EdgeInsets.only(left: 18.0),
-//                       alignment: Alignment.centerLeft,
-//                       child: const Text(
-//                         '3-seat sofa, grey',
-//                         style: TextStyle(
-//                             color: Colors.white,
-//                             fontSize: 14,
-//                             fontWeight: FontWeight.w100),
-//                       ),
-//                     ),
-//                     buildSizedBox(14),
-//                     const Padding(
-//                       padding: EdgeInsets.only(left: 18.0),
-//                       child: Text(
-//                         'Rs. 25,000',
-//                         style: TextStyle(
-//                           fontSize: 38,
-//                           color: Colors.white,
-//                           fontWeight: FontWeight.w500,
-//                         ),
-//                       ),
-//                     ),
-//                     buildSizedBox(28),
-//                     const Padding(
-//                       padding: EdgeInsets.only(left: 18.0),
-//                       child: Text(
-//                         'Product Information',
-//                         style: TextStyle(
-//                           color: Colors.white,
-//                           fontSize: 18,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
-//                     ),
-//                     buildSizedBox(14),
-//                     buildDivider(),
-//                     Container(
-//                       padding: const EdgeInsets.symmetric(
-//                           horizontal: 18, vertical: 24),
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           const Text(
-//                             'Reviews',
-//                             style: TextStyle(
-//                               color: Colors.white,
-//                               fontSize: 15.5,
-//                             ),
-//                           ),
-//                           Row(
-//                             children: const <Widget>[
-//                               Icon(
-//                                 Icons.star,
-//                                 color: Colors.yellow,
-//                                 size: 18,
-//                               ),
-//                               Icon(
-//                                 Icons.star,
-//                                 color: Colors.yellow,
-//                                 size: 18,
-//                               ),
-//                               Icon(
-//                                 Icons.star,
-//                                 color: Colors.yellow,
-//                                 size: 18,
-//                               ),
-//                               Icon(
-//                                 Icons.star,
-//                                 color: Colors.yellow,
-//                                 size: 18,
-//                               ),
-//                               Icon(
-//                                 Icons.star_border,
-//                                 color: Colors.white,
-//                                 size: 18,
-//                               ),
-//                             ],
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                     buildDivider(),
-//                     ExpansionTile(
-//                       title: const Text(
-//                         'Product details',
-//                         style: TextStyle(
-//                           color: Colors.white,
-//                           fontSize: 15.5,
-//                         ),
-//                       ),
-//                       children: [
-//                         Container(
-//                           padding: const EdgeInsets.only(
-//                               left: 17, right: 17, bottom: 10),
-//                           width: 400,
-//                           child: const Text(
-//                             'MRP Rs.36,733 (incl. tax)\n\nSeat cushions filled with high resilience foam and polyester fibre wadding give comfortable support for your body, and easily regain their shape when you get up.\n\nBack cushions filled with polyester fibres for soft comfort.\n\nCountry of Origin - India',
-//                             style: TextStyle(
-//                               color: Colors.white,
-//                               fontSize: 14,
-//                               fontWeight: FontWeight.w200,
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                     buildDivider(),
-//                     ExpansionTile(
-//                       title: const Text(
-//                         'Materials',
-//                         style: TextStyle(
-//                           color: Colors.white,
-//                           fontSize: 15.5,
-//                         ),
-//                       ),
-//                       children: [
-//                         Container(
-//                           padding: const EdgeInsets.only(
-//                               left: 17, right: 17, bottom: 10),
-//                           width: 400,
-//                           child: Column(
-//                             children: const [
-//                               Text(
-//                                 'Leg',
-//                                 style: TextStyle(
-//                                   color: Colors.white,
-//                                   fontSize: 14,
-//                                   fontWeight: FontWeight.w200,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                     buildDivider(),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           );
-//         },
-//       ),
-//     ],
-//   ),
-// ),

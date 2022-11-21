@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'ArFunctionality/demo.dart';
 import 'Screens/AuthenticationScreens/loginScreen.dart';
@@ -34,7 +35,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   var isSignedIn ;
-
   Future<void> getLoginStatus() async {
     setState(() {
       isSignedIn = FirebaseAuth.instance.currentUser != null;
@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
         backgroundColor: const Color.fromRGBO(44, 53, 57, 1),
-        body: Demo()//isSignedIn ?  const HomeScren() :  const LoginScreen()
+        body: isSignedIn ?  const HomeScren() :  const LoginScreen()
     );
   }
 }
