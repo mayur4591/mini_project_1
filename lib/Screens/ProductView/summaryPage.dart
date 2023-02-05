@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:untitled/Models/customerInfo.dart';
 import 'package:untitled/Screens/HomeScreens/homeScreen.dart';
 import 'package:untitled/Screens/ProductView/Placed%20Oeder.dart';
+import '../../Customer/My Orders.dart';
 import '../../Models/productmodel.dart';
 
 class SummaryPage extends StatefulWidget {
@@ -237,7 +238,9 @@ class _SummaryPageState extends State<SummaryPage> {
                       });
                       CustomerInfo customer=CustomerInfo(widget.name, widget.address, widget.land_mark, widget.state, widget.phon_num, widget.pincode, widget.city,FirebaseAuth.instance.currentUser!.uid);
                             placeOrder(widget.product,customer).then((value) => {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const PlacedOrder()))
+                              Navigator.popUntil(context, (route) => false),
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScren())),
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const OrderList()))
                             }).then((value) => {
                             setState((){
                             isorderPlaced=false;

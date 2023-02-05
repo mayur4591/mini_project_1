@@ -268,7 +268,8 @@ class _ProductDetailsState extends State<ProductDetails> {
             Text('View in 3D',style: TextStyle(color: Colors.white,fontSize: 13),)
           ],
       )),
-        )],
+        )
+      ],
       elevation: 2,
       title: Text('Details'),
       leading: IconButton(

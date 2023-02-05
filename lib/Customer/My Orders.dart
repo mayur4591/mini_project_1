@@ -88,7 +88,7 @@ class _OrderList extends State<OrderList> {
         //         )));
       },
       child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(8),
           child: boxes(
             name: product['product_name'],
             price: product['total'].toString(),
